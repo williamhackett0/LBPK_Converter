@@ -8,7 +8,7 @@ This tool takes the archived community levels from archive.org (https://archive.
 Download and extract the community levels from archive.org into a folder of your choice. Typically the folders have a unique ID as the folder name and inside have a `data.bin`
 - i.e. `10183/data.bin` or `1835473/data.bin`
 
-![Server Files Example](assets/server_files_example.png)
+![Server Files Example](https://github.com/williamhackett0/LBPK_Converter/blob/main/assets/server_files_example.PNG)
 
 Run the application with `python lbpk.py`.
 
@@ -16,9 +16,9 @@ This will open a GUI interface where you can select the folder containing all th
 
 Transfer any saves from your output foler (You will see there are 6 files) to your Ps3 via FTP or another method.
 - Little Big Planet Kartings save locations can be found at `/dev_hdd0/game/NPEA00421_UCC/USRDIR/1/DATA/LOCAL/TRACK`. This may look different for you.
-- Simply place the generated files into the TRACK folder (Your folder should have ). 
+- Simply place the generated files into the TRACK folder (Your folder should have the below output). 
 
-![Example FTP folder](assets/ftp_example.png)
+![Example FTP folder](https://github.com/williamhackett0/LBPK_Converter/blob/main/assets/ftp_example.PNG)
 
 ## Building
 
