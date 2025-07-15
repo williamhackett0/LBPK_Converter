@@ -10,7 +10,7 @@ Download and extract the community levels from archive.org into a folder of your
 
 ![Server Files Example](https://github.com/williamhackett0/LBPK_Converter/blob/main/assets/server_files_example.PNG)
 
-Run the application with `python lbpk.py`.
+Download the latest release [here](https://github.com/williamhackett0/LBPK_Converter/releases) or run the application with `python lbpk.py`.
 
 This will open a GUI interface where you can select the folder containing all the server files extracked from the previous step (`10183/data.bin` etc). You can then select the output folder to place the converted track files. Clicking 'Convert' will then start the process.
 
