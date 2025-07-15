@@ -5,7 +5,7 @@ a = Analysis(
     ['lbpk.py'],
     pathex=[],
     binaries=[],
-    datas=[('resources/*', '.')],
+    datas=[('resources/*', 'resources.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

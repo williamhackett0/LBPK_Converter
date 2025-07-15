@@ -22,7 +22,7 @@ Transfer any saves from your output foler (You will see there are 6 files) to yo
 
 ## Building
 
-We use `pyinstaller` to create a build. Use `pyinstaller --noconsole --add-data "resources/*;." .\lbpk.py`
+We use `pyinstaller` to create a build. Use `pyinstaller --noconsole --add-data "resources/*;resources." .\lbpk.py`
 
 ## Deep Dive
 

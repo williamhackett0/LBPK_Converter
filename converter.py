@@ -1,6 +1,7 @@
 import os
 import shutil
 import logging
+import sys
 from cm2 import CM2, get_cm2_size, sanatise_track_name
 from utils import byte_to_int, get_folder_names, grab_specific_data, load_file
 
@@ -56,8 +57,17 @@ def write_extracted_files(track_id: int, trk_data: bytes, cm2_data: bytes, nav_d
     # Unfourtunately, we don't have the actual PNG files, so we use placeholders :(
     dst_small_png = os.path.join(output_path, f"{base_filename}_SMALL.PNG")
     dst_png = os.path.join(output_path, f"{base_filename}.PNG")
-    shutil.copy("_internal/PLACEHOLDER_XXXXXXX_SMALL.PNG", dst_small_png)
-    shutil.copy("_internal/PLACEHOLDER_XXXXXXX.PNG", dst_png)
+
+    # Determine resource path depending on execution context (PyInstaller or normal Python)
+    if getattr(sys, 'frozen', False):
+        # Running in a PyInstaller bundle
+        resource_dir = os.path.join(sys._MEIPASS, "resources")
+    else:
+        # Running in normal Python
+        resource_dir = "resources"
+
+    shutil.copy(os.path.join(resource_dir, "PLACEHOLDER_XXXXXXX_SMALL.PNG"), dst_small_png)
+    shutil.copy(os.path.join(resource_dir, "PLACEHOLDER_XXXXXXX.PNG"), dst_png)
 
     print("Successfully written files to output directory.")
 
@@ -73,16 +83,22 @@ def convert_files(archive_path: str, output_path: str, console_output: callable)
 
     # Directory where server files are located
     server_folders = get_folder_names(archive_path)
-    logger.debug(f"Server folders found: {server_folders}")
-    console_output(f"Server folders found: {server_folders}")
 
     if not server_folders:
-        print("No server folders found. Please check the server_files directory.")
-        exit(1)
+        logger.debug("No server folders found. Please check the server_files directory.")
+        console_output("No server folders found. Please check the server_files directory.")
+    else:
+        logger.debug(f"Server folders found: {server_folders}")
+        console_output(f"Server folders found: {server_folders}")
 
     cm2s_ = []
     for server_folder in server_folders:
         binary_path = os.path.join(archive_path, server_folder, "data.bin")
+        if not os.path.isfile(binary_path):
+            logger.warning(f"data.bin not found in {os.path.join(archive_path, server_folder)}. Skipping.")
+            console_output(f"data.bin not found in {os.path.join(archive_path, server_folder)}. Skipping.")
+            continue
+        
         server_binary_file = load_file(binary_path)
 
         # Full CTH extraction

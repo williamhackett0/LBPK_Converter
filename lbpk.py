@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, Label
 from converter import convert_files
 import webbrowser
+import threading
 
 ARCHIVE_PATH = ""  # Placeholder for archive path
 OUTPUT_PATH = ""    # Placeholder for output path
@@ -31,7 +32,6 @@ def convert():
     This function is called when the Convert button is clicked.
     It will call the convert_files function with the selected paths.
     """
-    print("Convert button clicked.")
     write_to_console("Starting conversion...")
     write_to_console(f"Archive path: {ARCHIVE_PATH}\nOutput path: {OUTPUT_PATH}")
 
@@ -101,11 +101,15 @@ output_path_label.pack(side=tk.LEFT, padx=10, fill=tk.X, expand=True)
 row3 = tk.Frame(top_frame)
 row3.pack(fill=tk.X, pady=15)
 
+def threaded_convert():
+    thread = threading.Thread(target=convert)
+    thread.start()
+
 convert_button = tk.Button(
     row3,
     text="Convert",
     width=20,
-    command=convert
+    command=threaded_convert
 )
 convert_button.pack(side=tk.LEFT, padx=5)
 
@@ -126,8 +130,20 @@ console_frame.pack(fill=tk.BOTH, expand=True, padx=10)
 console_label = Label(console_frame, text="Console Output:", anchor="w", justify="left")
 console_label.pack(anchor="w")
 
-console_text = tk.Text(console_frame, height=6, wrap="word", state="disabled")
-console_text.pack(fill=tk.BOTH, expand=True)
+# Add a scrollbar to the console text widget
+console_scrollbar = tk.Scrollbar(console_frame)
+console_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+console_text = tk.Text(
+    console_frame,
+    height=6,
+    wrap="word",
+    state="disabled",
+    yscrollcommand=console_scrollbar.set
+)
+console_text.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
+
+console_scrollbar.config(command=console_text.yview)
 
 # Author info row with clickable GitHub link
 def open_github(event=None):
