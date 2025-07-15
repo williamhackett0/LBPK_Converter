@@ -1,0 +1,8 @@
+build/*
+dist/*
+.venv/
+__pycache__/
+server_files/*
+output_test/*
+*.pyc
+notes.md
